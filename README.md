@@ -9,10 +9,10 @@ for every function on the calculator itself.
 
 | | |
 |---|---|
-| Version | 0.2 alpha, 14 October 2026 ([what is new](#new-in-02)) |
+| Version | 0.3 alpha, 18 October 2026 ([what is new](#new-in-03)) |
 | Calculator | NumWorks N0100 only (the model number is on the back) |
-| Download | [Releases](https://github.com/hugoferreira/Symmetria/releases): `symmetria-n0100-0.2-alpha.bin`, 870,716 bytes |
-| SHA-256 | `2e1cbb0d7b0792c83a0aff396b028d4fbb4723f2145958b2449c8bf96b5c039c` |
+| Download | [Releases](https://github.com/hugoferreira/Symmetria/releases): `symmetria-n0100-0.3-alpha.bin`, 868,860 bytes |
+| SHA-256 | `4f62657d0d0998b5484574d615c6d6086dfb0e01a9797963a5e462f816e7f260` |
 | Source | not published yet: see [Source code](#source-code) |
 
 Symmetria has no Python, no examination mode and none of Epsilon's
@@ -64,11 +64,13 @@ plot(x^3 - 3x, x, -3, 3)                 the graph, in the window -20 to 20
 The results are given here as text; the calculator typesets them, as in the
 screens below.
 
-About 390 functions, each with a help page on the calculator (392 pages, 648
+About 400 functions, each with a help page on the calculator (401 pages, 754
 worked examples, which a page evaluates when it is opened):
 
 - **Algebra**: `expand`, `factor`, `solve`, `cSolve`, `simult`, `partFrac`,
-  `together`, `collect`, `polyGcd`, `resultant`, `groebner`, `eliminate`.
+  `together`, `collect`, `polyGcd`, `resultant`, `groebner`, `eliminate`;
+  numeric `proot`; the orthogonal polynomials of Legendre, Hermite, Laguerre
+  and Chebyshev.
 - **Calculus**: `d`, `integrate`, `limit`, `taylor`, `series`, `deSolve`,
   `rSolve`, `laplace`, `fourier`, `zTransform` and their inverses,
   `gradient`, `jacobian`, `hessian`; numeric `nInt`, `nSolve`, `nDeriv`.
@@ -77,7 +79,8 @@ worked examples, which a page evaluates when it is opened):
 - **Numbers**: integers to about 2,300 digits and fractions of them, exact;
   factorials, binomials, Fibonacci, Bell and Stirling numbers of that size.
 - **Linear algebra**: `det`, `inverse`, `rref`, `lu`, `qr`, `cholesky`,
-  `eigVl`, `eigVc`, `jordan`, `charPoly`, `nullSpace`, `matExp`.
+  `eigVl`, `eigVc`, `jordan`, `charPoly`, `nullSpace`, `matExp`, `matpow`,
+  `matrix`; numeric `svd`.
 - **Number theory**: primes, factorisation, `gcd`, modular inverse and powers,
   the Chinese remainder theorem, continued fractions, Stirling and Bell
   numbers.
@@ -103,62 +106,59 @@ worked examples, which a page evaluates when it is opened):
 The screens are drawn by the firmware's own code, run on a computer, at twice
 their size. They are not photographs of the panel.
 
-## New in 0.2
+## New in 0.3
 
-**Graphs.** `plot(f, x)` answers with the graph of `f`, drawn in the history
-like any other result. There is no graph screen, trace or zoom key: the
-answer is also the call with the window it was drawn in,
-`plot(x^3-3x, x, -3, 3, -20, 20)`, and `↑` then `→` brings that into the line,
-where the window is changed by editing its numbers. Poles and jumps are not
-joined; functions in pieces (`if`, `piecewise`) are drawn, integrated and
-solved numerically.
+**Calculus in degrees.** Under degrees and gradians `d`, `integrate`, `limit`
+and the series are computed in radians and written back in the unit:
+`d(sin(x), x)` is `pi*cos(x)/180`, where 0.2 answered `cos(x)`. A multiple of
+`pi` is that many degrees, as on other calculators: `sin(pi/6)` is no longer
+`1/2` under degrees.
 
-| | |
-|---|---|
-| ![A cubic, its roots and its graph](screenshots/graph.png) | ![A wave packet on the dark screen](screenshots/graph-dark.png) |
-| ![The tangent, its poles not joined](screenshots/graph-poles.png) | ![A function in two pieces](screenshots/graph-pieces.png) |
+![Calculus under degrees](screenshots/degrees.png)
 
-**Colours.** The settings choose a light or a dark screen, one of seven
-accents and the height of a graph.
+**Nine new functions.** `legendre`, `hermite`, `laguerre`, `tchebyshev1`,
+`tchebyshev2`; `matpow` (also to a symbolic power), `matrix(rows, cols, f)`;
+`proot` and `svd`, numerical.
 
-**Help that computes.** A help page evaluates its examples when it is opened
-and typesets the results as the history would, under the settings in force.
-
-**Long numbers.** A sum, product, quotient or integer power of numbers is one
-exact number whatever its size, to about 2,300 digits: `30!`,
-`sum(1/k^2, k, 1, 400)`, `(2/3)^40`. `expand` goes on past coefficients of
-32 bits. Matrix functions no longer stop there either.
-
-**Long lines.** A line holds 2,047 characters (it held 255), so a long answer
-can be brought back and edited; the line scrolls in seven rows. `OK` on an
-entry of the history opens its line on a page of its own.
+**More algebra and calculus.** `gcd` and `lcm` of polynomials; systems of
+polynomial equations; cubics with three real roots; rational expressions in
+several variables reduced; integration by substitution, of absolute values and
+of rational functions over real radicals; series with poles and fractional
+powers (`series(1/sin(x), x, 0, 3)`); limits of radicals at infinity and
+one-sided limits at poles; `isPrime` past 64 bits; statistics, `lu` and linear
+systems past 32 bits.
 
 | | |
 |---|---|
-| ![An answer of 28 terms brought back into the line](screenshots/line.png) | ![The line of an entry, on its page](screenshots/line-page.png) |
+| ![A Laurent series, an integral of an absolute value, a limit at infinity](screenshots/calculus3.png) | ![A polynomial system, a gcd of polynomials, a rational expression reduced](screenshots/algebra3.png) |
+| ![A Legendre polynomial, a symbolic matrix power, numerical roots](screenshots/functions3.png) | ![The fault screen](screenshots/fault.png) |
 
-**Answers that were wrong.** A generated check, which compares the
-calculator's answers with values computed independently, found 17 classes of
-wrong answer that the hand-written tests had not; all are fixed. Among them:
-`nCr(30, 15)` was negative, `factor(x^15 - 1)` returned a product of degree
-27, `taylor(abs(x), x, 0, 3)` was 0, `3*10^9 - 2*10^9` was 5294967296. The
-[release notes](https://github.com/hugoferreira/Symmetria/releases/tag/v0.2)
+**Answers that were wrong.** 34 classes of wrong answer that 0.2 gives were
+found by the generated check, now 115,002 lines with every Tier 1 function in
+a family, and by a review of each subsystem against the sizes of input it
+accepts. Among them: `inverse` of a singular matrix returned a matrix,
+`factor(expand((x^2+1)^17))` was `(x^2+1)^16`, `cSolve(x^4 = 1, x)` gave the
+two real roots only, `integrate(1/(x-1)^2, x, 0, 2)` was -2. The
+[release notes](https://github.com/hugoferreira/Symmetria/releases/tag/v0.3)
 list them.
 
-**One form for a result.** `x^(-1)` and `1/x`, `(x*y)^2` and `x^2*y^2`,
-`4 - i` written for `-4i`: such pairs are one term now, so their differences
-are 0 and like terms join.
+**A freeze, and a screen for the next one.** A user function that recursed
+too deep could leave the calculator standing still some lines later; found on
+the calculator while this release was tested, and fixed (0.2 has it). Should
+the processor ever fault again, the calculator shows a Guru Meditation screen
+with what to send to the author, and any key starts it again.
 
-**Faster, and in less memory.** `factor(x^15 - 1)` takes 1.5 ms where it took
-763; the determinant of an 8 by 8 matrix of numbers 1.2 ms where it took 215;
-`sum(1/k^2, k, 1, 400)` 50 ms where it took 445 (estimated for the
-calculator's processor). A deeply nested line that ran the stack out, and
-left the calculator standing still until Reset, is now the error row
-`out of memory (stack)`.
+**Smaller and faster.** Over the 873 lines of the measurement corpus that give
+the same result in both versions, evaluations take 2.5 s where they took 26.7 s
+(estimated for the calculator's processor; the calculator itself took 0.994
+of the estimate at the median): `nnTrain` 0.8 s where it took 22, long sums
+and expansions a tenth of their time, assumptions a third. The median stack
+of an evaluation is 1,444 bytes where it was 1,844, and the firmware is 1.8 KB
+smaller than 0.2 with all of the above.
 
-**A freeze in long sessions.** 0.1 could stand still, deaf to every key, once
-a session was long enough for the history to drop its oldest entry. Found on
-the calculator while this release was tested, and fixed.
+What was new in 0.2 (graphs, colours, help pages that compute, long numbers
+and long lines) is in its
+[release notes](https://github.com/hugoferreira/Symmetria/releases/tag/v0.2).
 
 ## Before you install
 
@@ -176,7 +176,7 @@ the calculator while this release was tested, and fixed.
 
 ## Install
 
-1. Download `symmetria-n0100-0.2-alpha.bin` from
+1. Download `symmetria-n0100-0.3-alpha.bin` from
    [Releases](https://github.com/hugoferreira/Symmetria/releases) and compare
    its SHA-256 with the one above (`shasum -a 256` or `sha256sum`).
 2. Connect the calculator by USB. Hold `6`, press Reset on the back (a pen
@@ -185,7 +185,7 @@ the calculator while this release was tested, and fixed.
 3. Write the image to the internal flash, at address `0x08000000`:
 
    ```
-   dfu-util -d 0483:df11 -a 0 -s 0x08000000:leave -D symmetria-n0100-0.2-alpha.bin
+   dfu-util -d 0483:df11 -a 0 -s 0x08000000:leave -D symmetria-n0100-0.3-alpha.bin
    ```
 
    Without `dfu-util`: a WebUSB page such as
@@ -246,18 +246,27 @@ reinstalls Epsilon; it asks for a NumWorks account.
 ## How it is tested
 
 The evaluator and the screens are the firmware's own code compiled for a
-computer and run by a test suite. For this release 5,921 checks on the
-results of expressions and 1,545 on screens and keys pass, among them every
-example of every help page. New in 0.2: 33,600 generated lines in 28 families
-whose answers are judged by values computed independently (in Python, with
-exact integers and 30-digit arithmetic), of which 4,096 are replayed by the
-suite; 6.1 million checks of the integer and rational arithmetic against
-128-bit references; the suite run once more under sanitizers; and, for 801
-lines, the time, memory and stack each takes on the firmware's own code in an
-emulator of the processor, compared with a recorded baseline before a change
-is accepted.
+computer and run by a test suite. For this release 14,028 checks on the
+results of expressions and 1,550 on screens and keys pass, among them every
+example of every help page. 115,002 generated lines in 36 families (43,200 in
+0.2) are judged by values computed independently, in Python with exact
+integers and 30-digit arithmetic; every Tier 1 function is in a family, and
+9,720 of the lines are replayed by the suite. The integer and rational
+arithmetic is checked against 128-bit references, the suite is run once more
+under sanitizers, and for 1,287 lines the time, memory and stack each takes
+on the firmware's own code in an emulator of the processor are compared with
+a recorded baseline before a change is accepted.
 
-A build of this release's sources with a serial port added was run on an
+The serial build of this release's sources was run on an N0100 on 17 and 18
+October 2026, driven and read over USB: 1,303 lines from power-on, every line
+of the performance corpus and every help example, returned the computer's
+text but for the order of two conjugate roots, in 0.994 of their estimated
+time at the median. A longer session found a freeze that no computer can
+show (a stack that ran out left a stale pointer behind); it is fixed, and a
+fault of the processor now ends in a screen that says what happened, checked
+on the calculator.
+
+A build of 0.2's sources with a serial port added was run on an
 N0100 on 14 October 2026, driven and read over USB. 776 lines in one session
 returned what the computer returns, in the time estimated for them (0.99 of
 the estimate at the median of the 108 that take a millisecond or more). 29
@@ -270,7 +279,7 @@ calculator went on.
 That run found what no test on a computer had: after enough lines for the
 history to drop its oldest entry, the calculator could stand still until
 Reset (a table of numbers moved to an odd address, which its processor
-refuses and a computer does not). It is fixed in this image, and 0.1 has it.
+refuses and a computer does not). It is fixed since 0.2, and 0.1 has it.
 
 Not checked, because it needs eyes and hands: the colours as the panel shows
 them, stopping an evaluation with Back, the battery reading against a meter.
