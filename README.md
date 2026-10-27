@@ -9,10 +9,10 @@ for every function on the calculator itself.
 
 | | |
 |---|---|
-| Version | 0.3 alpha, 18 October 2026 ([what is new](#new-in-03)) |
+| Version | 0.4 alpha, 26 October 2026 ([what is new](#new-in-04)) |
 | Calculator | NumWorks N0100 only (the model number is on the back) |
-| Download | [Releases](https://github.com/hugoferreira/Symmetria/releases): `symmetria-n0100-0.3-alpha.bin`, 868,860 bytes |
-| SHA-256 | `4f62657d0d0998b5484574d615c6d6086dfb0e01a9797963a5e462f816e7f260` |
+| Download | [Releases](https://github.com/hugoferreira/Symmetria/releases): `symmetria-n0100-0.4-alpha.bin`, 979,940 bytes |
+| SHA-256 | `facc9aa0930bd6ecf9f21c9a0543c1bd87e9062b10a934907275910d04f51d89` |
 | Source | not published yet: see [Source code](#source-code) |
 
 Symmetria has no Python, no examination mode and none of Epsilon's
@@ -51,8 +51,8 @@ solve(x^2 - 4 = 0, x in N)               {2}
 primeFactors(60)                         [[2, 2], [3, 1], [5, 1]]
 nCr(33,11)*nCr(22,11)/6                  22754499243840
 30!                                      265252859812191058636308480000000
-[1..100000] <> (+)                       5000050000
-[1..5] <~> (x -> x^2)                    [1, 4, 9, 16, 25]
+[1..100000] /> (+)                       5000050000
+[1..5] :> (x -> x^2)                     [1, 4, 9, 16, 25]
 #{x | 0 < x < 30, x % 3 = 0}             9
 nInt(exp(-x^2), x, 0, inf)               0.8862269255
 normCdf(1.96)                            0.9750021049
@@ -64,10 +64,11 @@ plot(x^3 - 3x, x, -3, 3)                 the graph, in the window -20 to 20
 The results are given here as text; the calculator typesets them, as in the
 screens below.
 
-About 400 functions, each with a help page on the calculator (401 pages, 754
+About 400 functions, each with a help page on the calculator (406 pages, 895
 worked examples, which a page evaluates when it is opened):
 
-- **Algebra**: `expand`, `factor`, `solve`, `cSolve`, `simult`, `partFrac`,
+- **Algebra**: `expand`, `factor` (also in several variables), `solve` (also
+  inequalities, congruences and polynomial systems), `cSolve`, `simult`, `partFrac`,
   `together`, `collect`, `polyGcd`, `resultant`, `groebner`, `eliminate`;
   numeric `proot`; the orthogonal polynomials of Legendre, Hermite, Laguerre
   and Chebyshev.
@@ -76,7 +77,7 @@ worked examples, which a page evaluates when it is opened):
   `gradient`, `jacobian`, `hessian`; numeric `nInt`, `nSolve`, `nDeriv`.
 - **Graphs of functions**: `plot(f, x)` or `plot(f, x, a, b)`; the answer is
   the graph, drawn in the history, and the call with its window.
-- **Numbers**: integers to about 2,300 digits and fractions of them, exact;
+- **Numbers**: integers to about 2,450 digits and fractions of them, exact;
   factorials, binomials, Fibonacci, Bell and Stirling numbers of that size.
 - **Linear algebra**: `det`, `inverse`, `rref`, `lu`, `qr`, `cholesky`,
   `eigVl`, `eigVc`, `jordan`, `charPoly`, `nullSpace`, `matExp`, `matpow`,
@@ -89,10 +90,10 @@ worked examples, which a page evaluates when it is opened):
 - **Assumptions**: `x^2 | x > 0`, `solve(..., x in Z)`, `given(x > 0)` for the
   session; a default domain for all variables in the settings.
 - **Constraints over the integers**: `satisfy`, `allSolutions`, `nSolutions`,
-  `minimize`, `maximize`, with `allDifferent`, `circuit`, `table` and other
-  global constraints; set-builder notation `{x | ...}`.
+  `minimize`, `maximize`, with `distinct`, `ordered`, `allowed`, `singleCycle`,
+  `withinCapacity` and other predicates; set-builder notation `{x | ...}`.
 - **Collections and functions**: lists, sets, ranges, lambdas
-  (`x -> x^2`), map, filter and fold as operators (`<~>`, `<?>`, `<>`),
+  (`x -> x^2`), map, filter, fold and scan as operators (`:>`, `?>`, `/>`, `\>`),
   definitions (`f(x) := ...`).
 - **Graphs** as adjacency matrices: shortest paths, spanning trees, maximum
   flow, components.
@@ -106,59 +107,58 @@ worked examples, which a page evaluates when it is opened):
 The screens are drawn by the firmware's own code, run on a computer, at twice
 their size. They are not photographs of the panel.
 
-## New in 0.3
+## New in 0.4
 
-**Calculus in degrees.** Under degrees and gradians `d`, `integrate`, `limit`
-and the series are computed in radians and written back in the unit:
-`d(sin(x), x)` is `pi*cos(x)/180`, where 0.2 answered `cos(x)`. A multiple of
-`pi` is that many degrees, as on other calculators: `sin(pi/6)` is no longer
-`1/2` under degrees.
+**Read this before upgrading.** The collection operators are `/>` (fold),
+`\>` (scan), `:>` (map) and `?>` (filter), and the functions that take a
+collection take it first: `map(list, f)`. The constraint functions have new
+names: `distinct`, `same`, `ordered`, `allowed`, `occurrences`,
+`singleCycle`, `withinCapacity`. Lines written for 0.3 with the old ones no
+longer work; the [release notes](https://github.com/hugoferreira/Symmetria/releases/tag/v0.4)
+list every change.
 
-![Calculus under degrees](screenshots/degrees.png)
+**Solving.** Inequalities in one unknown by a sign chart, congruences as
+residue classes, periodic equations as families, polynomial systems by
+elimination, linear systems with symbols, and numerical roots where no exact
+method applies (a Settings row turns them off).
 
-**Nine new functions.** `legendre`, `hermite`, `laguerre`, `tchebyshev1`,
-`tchebyshev2`; `matpow` (also to a symbolic power), `matrix(rows, cols, f)`;
-`proot` and `svd`, numerical.
+![Inequalities, congruences, a periodic family](screenshots/solve4.png)
 
-**More algebra and calculus.** `gcd` and `lcm` of polynomials; systems of
-polynomial equations; cubics with three real roots; rational expressions in
-several variables reduced; integration by substitution, of absolute values and
-of rational functions over real radicals; series with poles and fractional
-powers (`series(1/sin(x), x, 0, 3)`); limits of radicals at infinity and
-one-sided limits at poles; `isPrime` past 64 bits; statistics, `lu` and linear
-systems past 32 bits.
+**Algebra and calculus.** Factoring in several variables; radicals written in
+one form (`1/(sqrt(2)+sqrt(3)+sqrt(5))`); complex logarithms and powers;
+`deSolve` for linear, Bernoulli, Riccati and homogeneous equations and
+constant coefficients of any order; closed forms for sums, products and
+recurrences (`sum(1/k^2, k, 1, inf)` is `pi^2/6`); `fMin`, `fMax`, `avgRC`,
+`cubicReg`, `quartReg`, `powerReg`, `jacobi`, `order`, `primitiveRoot`,
+`discreteLog`, `erf`, `harmonic`.
 
 | | |
 |---|---|
-| ![A Laurent series, an integral of an absolute value, a limit at infinity](screenshots/calculus3.png) | ![A polynomial system, a gcd of polynomials, a rational expression reduced](screenshots/algebra3.png) |
-| ![A Legendre polynomial, a symbolic matrix power, numerical roots](screenshots/functions3.png) | ![The fault screen](screenshots/fault.png) |
+| ![A factorisation in three variables, a radical rationalised, a complex logarithm](screenshots/algebra4.png) | ![A differential equation of order 2, the Basel sum](screenshots/calculus4.png) |
 
-**Answers that were wrong.** 34 classes of wrong answer that 0.2 gives were
-found by the generated check, now 115,002 lines with every Tier 1 function in
-a family, and by a review of each subsystem against the sizes of input it
-accepts. Among them: `inverse` of a singular matrix returned a matrix,
-`factor(expand((x^2+1)^17))` was `(x^2+1)^16`, `cSolve(x^4 = 1, x)` gave the
-two real roots only, `integrate(1/(x-1)^2, x, 0, 2)` was -2. The
-[release notes](https://github.com/hugoferreira/Symmetria/releases/tag/v0.3)
-list them.
+**Constraint problems.** Predicates with one meaning everywhere (they also
+evaluate on known values), optimisation of linear objectives of any length,
+groups and circuits of 255 variables, exact counts past 2^31, values of mixed
+kinds. Logic and sets are drawn as signs.
 
-**A freeze, and a screen for the next one.** A user function that recursed
-too deep could leave the calculator standing still some lines later; found on
-the calculator while this release was tested, and fixed (0.2 has it). Should
-the processor ever fault again, the calculator shows a Guru Meditation screen
-with what to send to the author, and any key starts it again.
+![A count, a fold, an intersection of residue classes](screenshots/constraints4.png)
 
-**Smaller and faster.** Over the 873 lines of the measurement corpus that give
-the same result in both versions, evaluations take 2.5 s where they took 26.7 s
-(estimated for the calculator's processor; the calculator itself took 0.994
-of the estimate at the median): `nnTrain` 0.8 s where it took 22, long sums
-and expansions a tenth of their time, assumptions a third. The median stack
-of an evaluation is 1,444 bytes where it was 1,844, and the firmware is 1.8 KB
-smaller than 0.2 with all of the above.
+**Answers that were wrong.** 94 kinds of wrong answer that 0.3 gives are
+fixed, among them `normCdf(-10)` (0.3: 0), `gamma(17/2)` (negative),
+`nSolutions([x in [0..200], (x - 1)*(x - 100) = 0], [x])` (100) and
+`solve(x^2*(x+3) <= 0, x)` (the root 0 missing).
 
-What was new in 0.2 (graphs, colours, help pages that compute, long numbers
-and long lines) is in its
-[release notes](https://github.com/hugoferreira/Symmetria/releases/tag/v0.2).
+**Smaller footprint, more code.** Over the 1,169 lines of the measurement
+corpus that give the same result in both versions, the median stack of an
+evaluation is 1,172 bytes (0.3: 1,460) and evaluations take 3.3 s (3.5 s),
+estimated for the calculator's processor; the calculator took 0.989 of the
+estimate at the median. The firmware is 980 KB of the 1 MB flash, 111 KB more
+than 0.3.
+
+What was new in 0.3 (calculus in degrees, nine new functions, the fault
+screen) and in 0.2 (graphs, colours, help pages that compute) is in their
+release notes: [0.3](https://github.com/hugoferreira/Symmetria/releases/tag/v0.3),
+[0.2](https://github.com/hugoferreira/Symmetria/releases/tag/v0.2).
 
 ## Before you install
 
@@ -176,7 +176,7 @@ and long lines) is in its
 
 ## Install
 
-1. Download `symmetria-n0100-0.3-alpha.bin` from
+1. Download `symmetria-n0100-0.4-alpha.bin` from
    [Releases](https://github.com/hugoferreira/Symmetria/releases) and compare
    its SHA-256 with the one above (`shasum -a 256` or `sha256sum`).
 2. Connect the calculator by USB. Hold `6`, press Reset on the back (a pen
@@ -185,7 +185,7 @@ and long lines) is in its
 3. Write the image to the internal flash, at address `0x08000000`:
 
    ```
-   dfu-util -d 0483:df11 -a 0 -s 0x08000000:leave -D symmetria-n0100-0.3-alpha.bin
+   dfu-util -d 0483:df11 -a 0 -s 0x08000000:leave -D symmetria-n0100-0.4-alpha.bin
    ```
 
    Without `dfu-util`: a WebUSB page such as
@@ -216,8 +216,9 @@ reinstalls Epsilon; it asks for a NumWorks account.
   back, `→` inserts its result, `OK` opens the entry's line on a page.
 - A long line scrolls in seven rows; `↑` `↓` move through its rows.
 - **Home**: the settings (angle unit, what a variable is when nothing is
-  stated about it, fractions or decimals, digits, the height of a graph,
-  light or dark colours, the accent), the version, a diagnostics screen.
+  stated about it, exact or numerical solving, complex results, fractions or
+  decimals, digits, the height of a graph, light or dark colours, the
+  accent), the version, a diagnostics screen, a factory reset.
 - Holding Back stops a long evaluation. The power key suspends the
   calculator and wakes it.
 - `help syntax` lists the notation: `a % b`, `[1..5]`, `{x | ...}`, `#set`,
@@ -232,11 +233,11 @@ reinstalls Epsilon; it asks for a NumWorks account.
   the battery runs out.
 - A line the evaluator has no method for comes back as entered, sometimes
   with a note in the status bar (`no method applies; try nSolve`).
-- An evaluation has 158 KB of working memory; one that needs more ends with
+- An evaluation has 178 KB of working memory; one that needs more ends with
   `out of memory`, and one nested too deeply with `out of memory (stack)`.
   `expand` stops at 255 terms. A line holds 2,047 characters. An integer has
-  about 2,300 digits at most.
-- A graph is of one function of one variable. The history holds 13 graphs.
+  about 2,450 digits at most.
+- A graph is of one function of one variable. The history holds 14 graphs.
 - Decimals are computed in double precision and shown with up to ten digits.
 - No link to a computer: USB is for power and for installing.
 - Not yet checked on a calculator: the colours as the panel shows them, the
@@ -246,18 +247,27 @@ reinstalls Epsilon; it asks for a NumWorks account.
 ## How it is tested
 
 The evaluator and the screens are the firmware's own code compiled for a
-computer and run by a test suite. For this release 14,028 checks on the
-results of expressions and 1,550 on screens and keys pass, among them every
-example of every help page. 115,002 generated lines in 36 families (43,200 in
-0.2) are judged by values computed independently, in Python with exact
-integers and 30-digit arithmetic; every Tier 1 function is in a family, and
-9,720 of the lines are replayed by the suite. The integer and rational
+computer and run by a test suite. For this release 15,697 checks on the
+results of expressions and 1,722 on screens and keys pass, among them every
+example of every help page. About 178,000 generated lines (115,002 in 0.3)
+are judged by values computed independently, in Python with exact integers
+and 30-digit arithmetic, and 17,572 of them, in 136 families, are replayed by
+the suite. The integer and rational
 arithmetic is checked against 128-bit references, the suite is run once more
-under sanitizers, and for 1,287 lines the time, memory and stack each takes
+under sanitizers, and for 1,799 lines the time, memory and stack each takes
 on the firmware's own code in an emulator of the processor are compared with
 a recorded baseline before a change is accepted.
 
-The serial build of this release's sources was run on an N0100 on 17 and 18
+The serial build of this release's sources was run on an N0100 on 26
+October 2026, driven and read over USB: 1,814 lines in one session from
+power-on, every line of the performance corpus and every help example,
+returned the computer's answers, in 0.989 of their estimated time at the
+median. Preparing it found a fault that only a computer showed: a host build
+placed the working memory at an address the calculator's build never uses,
+and one constraint line wrote two bytes past its scratch block there. It is
+fixed; the calculator's image did not change.
+
+The serial build of 0.3's sources was run on an N0100 on 17 and 18
 October 2026, driven and read over USB: 1,303 lines from power-on, every line
 of the performance corpus and every help example, returned the computer's
 text but for the order of two conjugate roots, in 0.994 of their estimated
@@ -297,9 +307,8 @@ the bare processor, without a vendor library.
 
 What came from elsewhere is listed in
 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md): the fonts (derived from
-Terminus Font), the decompressor of the help text (adapted from
-zlib-deflate-nostdlib) and the mathematical routines of the compiler's
-library.
+Terminus Font, with four glyphs of the misc-fixed fonts) and the mathematical
+routines of the compiler's library.
 
 What the N0100's board needs was learned from published material: the
 documentation of the STM32F412 and of the display controller, and, for the
@@ -328,7 +337,7 @@ and questions about how something is computed are welcome as issues.
 
 Open an [issue](https://github.com/hugoferreira/Symmetria/issues) with the
 line as typed, what the calculator answered and what was expected. The
-version is on the About screen (Home, row 8).
+version is on the About screen (Home, row 4).
 
 ## Licence
 

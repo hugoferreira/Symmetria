@@ -9,8 +9,10 @@ not restrict.
 The two bitmap fonts in the image (8x14 and 6x10 pixels) are modified versions
 of Terminus Font 4.49: the glyphs the firmware uses of the 8x14 face
 (`ter-u14n`), and those of the 6x12 face (`ter-u12n`) cut to ten rows, with
-the marks that reached above them moved down. The integral sign and the
-multiplication dot are drawn for Symmetria and do not come from that font. The
+the marks that reached above them moved down. The integral sign, the
+multiplication dot, the ring of the elementwise product and the box are drawn
+for Symmetria, and pi, infinity, the script e and the double-struck i are taken
+from the misc-fixed fonts (below); none of these come from Terminus Font. The
 modified fonts are not named Terminus Font.
 
 - Copyright (C) 2020 Dimitar Toshkov Zhekov, with Reserved Font Name
@@ -20,23 +22,21 @@ modified fonts are not named Terminus Font.
 
 The font data in the image stays under the SIL Open Font License.
 
-## Decompressor of the help text: adapted from zlib-deflate-nostdlib
+## Four glyphs: misc-fixed
 
-The routine that unpacks the built-in help is adapted from
-zlib-deflate-nostdlib.
+Pi, infinity, the script e and the double-struck i are the glyphs of the
+misc-fixed fonts 8x13 (in the 8x14 font) and 6x10 or 6x12 (in the 6x10 font),
+placed on the baseline of the Terminus glyphs.
 
-- Copyright 2021 Birte Kristina Friesel
-- BSD 2-Clause License:
-  [licenses/BSD-2-Clause-zlib-deflate-nostdlib.txt](licenses/BSD-2-Clause-zlib-deflate-nostdlib.txt)
-- https://github.com/derf/zlib-deflate-nostdlib
+- Public domain
+- https://www.cl.cam.ac.uk/~mgk25/ucs-fonts.html
 
 ## Mathematical functions: newlib
 
 The image is linked with the mathematical library (`libm`) of newlib 4.6.0, as
-shipped in the Arm GNU Toolchain 15.3.Rel1: the double-precision elementary
+shipped in the Arm GNU Toolchain 15.3.Rel2: the double-precision elementary
 functions (`sin`, `cos`, `tan`, `asin`, `acos`, `atan`, `sinh`, `cosh`, `tanh`,
-`exp`, `expm1`, `log`, `pow`, `sqrt`, `cbrt`, `floor`, `ceil` and their
-helpers). No other part of newlib is in the image.
+`exp`, `expm1`, `log`, `pow`, `sqrt`, `floor`, `ceil` and their helpers). No other part of newlib is in the image.
 
 - The functions come from fdlibm:
 
@@ -57,7 +57,7 @@ helpers). No other part of newlib is in the image.
 
 The image is linked with routines of GCC's runtime library (64-bit division,
 double-precision arithmetic in software, bit counts), from the Arm GNU
-Toolchain 15.3.Rel1 (GCC 15.3.1).
+Toolchain 15.3.Rel2 (GCC 15.3.1).
 
 - Copyright (C) Free Software Foundation, Inc.
 - GNU General Public License version 3 or later, with the GCC Runtime Library
