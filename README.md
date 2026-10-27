@@ -143,7 +143,7 @@ kinds. Logic and sets are drawn as signs.
 
 ![A count, a fold, an intersection of residue classes](screenshots/constraints4.png)
 
-**Answers that were wrong.** 94 kinds of wrong answer that 0.3 gives are
+**Answers that were wrong.** 95 kinds of wrong answer that 0.3 gives are
 fixed, among them `normCdf(-10)` (0.3: 0), `gamma(17/2)` (negative),
 `nSolutions([x in [0..200], (x - 1)*(x - 100) = 0], [x])` (100) and
 `solve(x^2*(x+3) <= 0, x)` (the root 0 missing).
